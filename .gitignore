@@ -8,6 +8,10 @@
 # Ignore build results
 ProductManagement/*/obj/*
 ProductManagement/*/bin/*
+/2. C# Knowledge/Solutions/bin/
+/2. C# Knowledge/Solutions/*/bin/
+/2. C# Knowledge/Solutions/obj/
+/2. C# Knowledge/Solutions/*/obj/
 */bin/*
 */obj/*
 
@@ -20,6 +24,7 @@ ProductManagement/*/bin/*
 
 # Ignore directories
 /ProductManagement/.vs/*
+/2. C# Knowledge/Solutions/.vs/
 /.vs/
 /ProductManagement.suo
 /obj/API.EntityFrameworkCore.targets

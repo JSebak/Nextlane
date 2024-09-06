@@ -14,16 +14,10 @@ namespace Infrastructure.Repositories
 
         public async Task Add(Product newEntity)
         {
-            try
-            {
-                _context.Products.Add(newEntity);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
 
-                throw;
-            }
+            _context.Products.Add(newEntity);
+            await _context.SaveChangesAsync();
+
         }
 
         public async Task Delete(int id)
@@ -43,23 +37,13 @@ namespace Infrastructure.Repositories
 
         public async Task<Product?> GetById(int id)
         {
-            try
-            {
-                if (id <= 0) throw new ArgumentOutOfRangeException("Invalid id value");
-                return await _context.Products.FindAsync(id);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return await _context.Products.FindAsync(id);
         }
 
-        public async Task Update(int id, Product updatedEntity)
+        public async Task Update(Product updatedEntity)
         {
             try
             {
-                var existingProduct = await _context.Products.FindAsync(id);
-                if (existingProduct == null) throw new ArgumentException($"There's no product with the id: {id}");
                 _context.Products.Update(updatedEntity);
                 await _context.SaveChangesAsync();
             }
