@@ -36,7 +36,7 @@ namespace Business.Services
             {
                 if (id <= 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(id), "Invalid id value.");
+                    throw new ArgumentException("Invalid id value.");
                 }
 
                 var product = await _productRepository.GetById(id);
@@ -89,7 +89,12 @@ namespace Business.Services
                 var product = await _productRepository.GetById(id);
                 if (product == null) throw new InvalidOperationException("There's no product associated with the id.");
                 var validation = Validate(updatedProduct, true);
-                if (validation.IsValid && (updatedProduct.Name != product.Name || updatedProduct.Price != product.Price))
+                if (!validation.IsValid)
+                {
+                    var message = string.Join(",/n ", validation.Errors);
+                    throw new ArgumentException(message);
+                }
+                if (updatedProduct.Name != product.Name || updatedProduct.Price != product.Price)
                 {
                     if (updatedProduct.Name != null && updatedProduct.Name != product.Name) product.Name = updatedProduct.Name;
                     if (updatedProduct.Price != null && updatedProduct.Price != product.Price) product.Price = updatedProduct.Price.Value;
@@ -107,9 +112,17 @@ namespace Business.Services
             bool valid = true;
             List<string> errors = [];
 
-            if (!isUpdate || !string.IsNullOrEmpty(productDetails.Name))
+            if (!isUpdate)
             {
                 if (string.IsNullOrEmpty(productDetails.Name))
+                {
+                    errors.Add("Invalid product name.");
+                    valid = false;
+                }
+            }
+            else
+            {
+                if (productDetails.Name != null && string.IsNullOrEmpty(productDetails.Name))
                 {
                     errors.Add("Invalid product name.");
                     valid = false;
