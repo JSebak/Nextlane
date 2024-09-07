@@ -11,9 +11,8 @@
     {
         public string TipoDeCombustible { get; set; }
 
-        public double CalcularEficiencia(int distancia, double consumo)
+        public static double CalcularEficiencia(int distancia, double consumo)
         {
-            if (TipoDeCombustible == "diesel") consumo = consumo * 0.8;
             return distancia / consumo;
         }
     }
