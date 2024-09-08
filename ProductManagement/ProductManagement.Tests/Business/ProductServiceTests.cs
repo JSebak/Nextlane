@@ -3,6 +3,7 @@ using Business.Services;
 using FluentAssertions;
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace ProductManagement.Tests.Business
@@ -11,11 +12,13 @@ namespace ProductManagement.Tests.Business
     {
         private readonly ProductService _productService;
         private readonly Mock<IRepository<Product>> _mockRepository;
+        private readonly Mock<ILogger<ProductService>> _mockLogger;
 
         public ProductServiceTests()
         {
             _mockRepository = new Mock<IRepository<Product>>();
-            _productService = new ProductService(_mockRepository.Object);
+            _mockLogger = new Mock<ILogger<ProductService>>();
+            _productService = new ProductService(_mockRepository.Object, _mockLogger.Object);
         }
 
         [Fact]

@@ -42,15 +42,8 @@ namespace Infrastructure.Repositories
 
         public async Task Update(Product updatedEntity)
         {
-            try
-            {
-                _context.Products.Update(updatedEntity);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            _context.Products.Update(updatedEntity);
+            await _context.SaveChangesAsync();
         }
     }
 }

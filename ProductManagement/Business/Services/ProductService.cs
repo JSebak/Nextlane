@@ -1,15 +1,18 @@
 ﻿using Business.Models;
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace Business.Services
 {
     public class ProductService : IProductService
     {
         private readonly IRepository<Product> _productRepository;
-        public ProductService(IRepository<Product> productRepository)
+        private readonly ILogger<ProductService> _logger;
+        public ProductService(IRepository<Product> productRepository, ILogger<ProductService> logger)
         {
             _productRepository = productRepository;
+            _logger = logger;
         }
 
         public async Task Add(ProductDetailsModel newProduct)
@@ -24,8 +27,9 @@ namespace Business.Services
                 }
                 await _productRepository.Add(new Product { Name = newProduct.Name, Price = newProduct.Price.Value });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw;
             }
         }
@@ -47,8 +51,9 @@ namespace Business.Services
 
                 await _productRepository.Delete(id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw;
             }
         }
@@ -60,8 +65,9 @@ namespace Business.Services
                 var products = (await _productRepository.GetAll()).Select(p => new ProductDto { Id = p.Id, Name = p.Name, Price = p.Price }).ToList();
                 return products;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw;
             }
         }
@@ -75,8 +81,9 @@ namespace Business.Services
                 if (product == null) return null;
                 return new ProductDto { Id = product.Id, Name = product.Name, Price = product.Price };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw;
             }
         }
@@ -101,8 +108,9 @@ namespace Business.Services
                     await _productRepository.Update(product);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 throw;
             }
         }
