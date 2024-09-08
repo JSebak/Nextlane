@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Tests.Repositories
 {
-    public class ProductRepositoryTests
+    public class ProductRepositoryTests : IDisposable
     {
         private readonly ProductRepository _repository;
         private readonly ProductManagementDbContext _context;
@@ -20,6 +20,28 @@ namespace Infrastructure.Tests.Repositories
 
             _context = new ProductManagementDbContext(options);
             _repository = new ProductRepository(_context);
+        }
+
+        public void Dispose()
+        {
+            _context.Database.EnsureDeleted();
+        }
+
+        [Fact]
+        public async Task GetAll_ShouldReturnEmpty_If_ThereAreNotProducts()
+        {
+            // Arrange
+            var products = new List<Product>
+            {
+            };
+            _context.Products.AddRange(products);
+            await _context.SaveChangesAsync();
+
+            // Act
+            var result = await _repository.GetAll();
+
+            // Assert
+            result.Should().BeEmpty();
         }
 
         [Fact]
@@ -41,22 +63,7 @@ namespace Infrastructure.Tests.Repositories
             result.Should().BeEquivalentTo(products);
         }
 
-        [Fact]
-        public async Task GetAll_ShouldReturnEmpty()
-        {
-            // Arrange
-            var products = new List<Product>
-            {
-            };
-            _context.Products.AddRange(products);
-            await _context.SaveChangesAsync();
 
-            // Act
-            var result = await _repository.GetAll();
-
-            // Assert
-            result.Should().BeEmpty();
-        }
 
         [Fact]
         public async Task GetById_ShouldReturnProduct_WhenExists()
@@ -149,7 +156,6 @@ namespace Infrastructure.Tests.Repositories
             var product = await _context.Products.FindAsync(1);
             product.Should().BeNull();
         }
-
     }
 }
 
