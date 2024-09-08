@@ -44,4 +44,8 @@ dotnet ef database update --project Infrastructure --startup-project ProductAPI
 - Los archivos dentro de la carpeta "1. General Concepts" sólo son para ilustrar conceptos, no necesitan ser ejecutados.
 - Los archivos dentro de la carpeta "2. C# Knowledge/Solutions" y "3. Software development and testing/EF", sólo basta con ejecutarlos despues de restaurar los paquetes de la solución.
 - Para la aplicación "ProductManagement" despues de restaurar los paquetes de la solución y ejecutar las migraciones, bastaría con ejecutarla, en caso de tener algún problema, prueba seleccionar "ProductAPI" como "Startup project".
+- Para la ejecución de los "tests" de la aplicación "ProductManagement" puedes tanto utilizar el "TestExplorer" de Visual Studio, o ejecuar el siguiente comando en la consola del Package Manager:
+```
+dotnet test
+```
 
