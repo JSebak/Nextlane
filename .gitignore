@@ -28,7 +28,6 @@ ProductManagement/*/bin/*
 /.vs/
 /ProductManagement.suo
 /obj/API.EntityFrameworkCore.targets
-/3. Software developing and testing/.vs/*
-/3. Software developing and testing/EF/*/bin/*
-/3. Software developing and testing/EF/*/obj/*
-/3. Software developing and testing/EF/.vs/EF
+/3. Software development and testing/EF/.vs/EF
+/3. Software development and testing/EF/B/bin/Debug/net8.0
+/3. Software development and testing/EF/B/obj
